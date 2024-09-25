@@ -1,10 +1,25 @@
 import re
 import random
 
+moedas = 0
 # regex para email
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 dados_cadastrados = [
-    {'id': 1, 'nome': 'edu', 'senha': 'edu123', 'endereco': 'educ4', 'email': 'teste', 'idade': 18}]
+    {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'edu', 'idade': 18, 'moedas': 100}]
+
+
+cards = [{id: 0, data: '24 março 2023', descricao: 'A criação de um circuito de Fórmula E'},
+         {id: 1, data: '30 junho 2024',
+          descricao: 'Da Costa makes it three wins in a row after sensational Portland showdown '},
+         {id: 2, data: '24 julho 2024', descricao: 'Rowland pride at targets "more than met" after maiden home win'},
+         {id: 3, data: '21 julho 2024',
+          descricao: "Porsche's Pascal Wehrlein races through the drama to seal Formula E Drivers' World Championship..."}, ];
+
+noticias = [{id: 0, img: Noticia1, title: cards[0].descricao, path: 'https://www.fiaformulae.com/pt-br/news/17969'},
+            {id: 1, img: Noticia2, title: cards[1].descricao, path: 'https://www.fiaformulae.com/pt-br/news/502496'},
+            {id: 2, img: Noticia3, title: cards[2].descricao, path: 'https://www.fiaformulae.com/pt-br/news/504373'},
+            {id: 3, img: Noticia4, title: cards[3].descricao, path: 'https://www.fiaformulae.com/pt-br/news/504132'}, ]
+
 quiz_data = {
     "questions": [
         {
@@ -115,7 +130,7 @@ def cadastro_usuario(nome_usuario, senha_usuario, endereco_usuario, email_usuari
     id_usuario = random.randrange(100)
 
     usuario = {'id': id_usuario, 'nome': nome_usuario, 'senha': senha_usuario, 'endereco': endereco_usuario,
-               'email': email_usuario, 'idade': idade_usuario}
+               'email': email_usuario, 'idade': idade_usuario, 'moedas': 0}
     dados_cadastrados.append(usuario)
     return True
 
@@ -183,7 +198,31 @@ def meu_index(lista, buscar):
     return False
 
 
-def meu_index_dicionario(lista_discinario, email_usuario):
+def adicionar_moedas(lista_discinario, email, moedas):
+    try:
+        index_usuario = verifica_usurio_index(lista_discinario, email)
+        lista_discinario[index_usuario]['moedas'] += moedas
+        return lista_discinario[index_usuario]['moedas']
+    except:
+        raise Exception("Valor não encontrado!")
+
+
+def buscar_valores(lista_discinario, buscar, email):
+    try:
+        index = verifica_usurio_index(lista_discinario, email)
+        return lista_discinario[index][buscar]
+    except:
+        raise Exception("Valor não encontrado!")
+
+
+def verifica_usurio_index(lista_discinario, email_usuario):
+    for i in range(len(lista_discinario)):
+        if lista_discinario[i]['email'] == email_usuario:
+            return i
+    raise Exception("Usuário não encontrado!")
+
+
+def verifica_email_lista(lista_discinario, email_usuario):
     for i in range(len(lista_discinario)):
         if lista_discinario[i]['email'] == email_usuario:
             return i
@@ -199,3 +238,6 @@ def forca_opcao(msg, lista_opcoes):
         print(msg_erro)
         opcao = input(msg)
     return opcao
+
+
+def noticias():

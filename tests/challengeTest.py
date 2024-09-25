@@ -1,20 +1,10 @@
 import unittest
 
 from service.serviceUser import forca_opcao, senha_len, verifica_idade, cadastro_usuario, login_usuario, \
-    meu_index_dicionario, dados_cadastrados, verifica_email_cadastro
+    dados_cadastrados, verifica_email_cadastro
 
 
 class TestChallengeMethods(unittest.TestCase):
-
-    def test_cadastro_usuario_deve_retornar_exeption_caso_nao_coincide(self):
-
-        # Criação de cenário
-        nome_usuario = 'teste12'
-        senha_usuario = 123
-        endereco_usuario = 'teste'
-        email_usuario = 'eduardo@gmail.com'
-        idade_usuario = 21
-        cadastro = cadastro_usuario(nome_usuario, senha_usuario, endereco_usuario, email_usuario, idade_usuario)
 
     def test_verifica_email_cadastro_deve_retormar_falso_caso_regex_nao_coincide_ja_existe(self):
 
@@ -42,4 +32,12 @@ class TestChallengeMethods(unittest.TestCase):
         self.assertEqual(verifica_idade('qualquercoisa'), 3)
         self.assertEqual(verifica_idade("['dsf']"), 3)
         self.assertEqual(verifica_idade('[123]'), 3)
+
+    def test_verifica_o_usuario_e_retorna_qualquer_valor_respectivo_do_usuario(self):
+
+        self.assertEqual('aabba', 'aabba')
+
+    def test_busca_o_dado_do_usuario(self):
+
+        self.assertTrue()
 

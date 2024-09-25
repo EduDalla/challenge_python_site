@@ -1,10 +1,10 @@
 from service.serviceUser import forca_opcao, senha_len, verifica_idade, cadastro_usuario, login_usuario, \
-    meu_index_dicionario, dados_cadastrados, verifica_email_cadastro, email_existe, verifica_numero, quiz_data
+    verifica_email_lista, dados_cadastrados, verifica_email_cadastro, email_existe, verifica_numero, quiz_data, \
+    moedas, buscar_valores, adicionar_moedas
 
 exec(open('./service/serviceUser.py').read())
 
-moedas = 0
-
+moedas_perguntas = 0
 invalido = 0
 escolha_incio = forca_opcao("Digite 1 para se cadastrar ou 2 para fazer login: ", ['1', '2'])
 while escolha_incio != '3':
@@ -47,9 +47,8 @@ while escolha_incio != '3':
         else:
             escolha_incio = '3'
 
-
 try:
-    indice = meu_index_dicionario(dados_cadastrados, email)
+    indice = verifica_email_lista(dados_cadastrados, email)
     print(f"Bem vindo {dados_cadastrados[indice]['nome']} a Formula-E!\n"
           f"Aqui você encontrará quizes para se divertir e uma comunidade muito acolhedora para tirar dúvidas e "
           f"conversar!")
@@ -62,6 +61,9 @@ while True:
         print("-" * 67)
         print(' ' * 30, 'Home', ' ' * 30)
         print("🔵" * 30)
+
+        escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite 3] ", ['1', '2', '3'])
+
     while escolha_site == '2':
         print("-" * 67)
         print(' ' * 30, 'Quizzes', ' ' * 30)
@@ -70,6 +72,7 @@ while True:
         indice_quiz = 0
         for data_quiz in quiz_data['questions']:
             print(f"{num_pergunta}º pergunta - {data_quiz['question']}")
+            num_pergunta += 1
             opcoes = 1
             for opcao in data_quiz["options"]:
                 print(f"{opcoes}) {opcao}")
@@ -77,12 +80,20 @@ while True:
             resposta = int(forca_opcao(f"Digite a resposta: ", ['1', '2', '3', '4']))
             if data_quiz["options"][resposta - 1] in data_quiz['answer']:
                 print("Você acertou! Ganhou 10 moedas!")
-                moedas += 10
+                moedas_perguntas += 10
             else:
                 print("Você errou...")
             indice_quiz += 1
+
+        adicionar_moedas(dados_cadastrados, email, moedas_perguntas)
+        print(buscar_valores(dados_cadastrados, 'moedas', email))
+
+        print(f"Parabéns! Você ganhou {moedas_perguntas} moedas")
+        escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite 3] ", ['1', '2', '3'])
 
     while escolha_site == '3':
         print("-" * 67)
         print(' ' * 30, 'Comunity', ' ' * 30)
         print("🔵" * 30)
+        print(' ' * 30, 'A cada msg vc ganha 1 ponto', ' ' * 30)
+        escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite 3] ", ['1', '2', '3'])
