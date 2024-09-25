@@ -1,24 +1,13 @@
 import re
 import random
+import time
+
 
 moedas = 0
 # regex para email
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 dados_cadastrados = [
     {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'edu', 'idade': 18, 'moedas': 100}]
-
-
-cards = [{id: 0, data: '24 março 2023', descricao: 'A criação de um circuito de Fórmula E'},
-         {id: 1, data: '30 junho 2024',
-          descricao: 'Da Costa makes it three wins in a row after sensational Portland showdown '},
-         {id: 2, data: '24 julho 2024', descricao: 'Rowland pride at targets "more than met" after maiden home win'},
-         {id: 3, data: '21 julho 2024',
-          descricao: "Porsche's Pascal Wehrlein races through the drama to seal Formula E Drivers' World Championship..."}, ];
-
-noticias = [{id: 0, img: Noticia1, title: cards[0].descricao, path: 'https://www.fiaformulae.com/pt-br/news/17969'},
-            {id: 1, img: Noticia2, title: cards[1].descricao, path: 'https://www.fiaformulae.com/pt-br/news/502496'},
-            {id: 2, img: Noticia3, title: cards[2].descricao, path: 'https://www.fiaformulae.com/pt-br/news/504373'},
-            {id: 3, img: Noticia4, title: cards[3].descricao, path: 'https://www.fiaformulae.com/pt-br/news/504132'}, ]
 
 quiz_data = {
     "questions": [
@@ -124,6 +113,30 @@ quiz_data = {
         }
     ]
 }
+
+noticias = [
+        {
+            "data": '24 março 2023',
+            "descricao": 'A criação de um circuito de Fórmula E',
+            "path": 'https://www.fiaformulae.com/pt-br/news/17969'
+        },
+        {
+            "data": '30 junho 2024',
+            "descricao": 'Da Costa makes it three wins in a row after sensational Portland showdown',
+            "path": 'https://www.fiaformulae.com/pt-br/news/502496'
+        },
+        {
+            "data": '24 julho 2024',
+            "descricao": 'Rowland pride at targets "more than met" after maiden home win',
+            "path": 'https://www.fiaformulae.com/pt-br/news/504373'
+        },
+        {
+            "data": '21 julho 2024',
+            "descricao": "Porsche's Pascal Wehrlein races through the drama to seal Formula E Drivers' World Championship...",
+            "path": 'https://www.fiaformulae.com/pt-br/news/504132' 
+        }
+    ]
+
 
 
 def cadastro_usuario(nome_usuario, senha_usuario, endereco_usuario, email_usuario, idade_usuario):
@@ -240,4 +253,12 @@ def forca_opcao(msg, lista_opcoes):
     return opcao
 
 
-def noticias():
+def printar_noticias():
+    for noticia in noticias:
+        print(f"{noticia['data']}\n"
+              f"{noticia['descricao']}\n"
+              f"Para saber mais, visite {noticia['path']}\n")
+        time.sleep(2.5)
+        
+
+

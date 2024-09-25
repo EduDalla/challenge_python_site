@@ -1,5 +1,5 @@
 from service.serviceUser import forca_opcao, senha_len, verifica_idade, cadastro_usuario, login_usuario, \
-    verifica_email_lista, dados_cadastrados, verifica_email_cadastro, email_existe, verifica_numero, quiz_data, \
+    verifica_email_lista, dados_cadastrados, verifica_email_cadastro, email_existe, printar_noticias, quiz_data, \
     moedas, buscar_valores, adicionar_moedas
 
 exec(open('./service/serviceUser.py').read())
@@ -59,9 +59,12 @@ escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite
 while True:
     while escolha_site == '1':
         print("-" * 67)
-        print(' ' * 30, 'Home', ' ' * 30)
+        print(' ' * 30, 'Home')
         print("🔵" * 30)
 
+        print(' ' * 28, 'Noticias')
+        printar_noticias()
+        
         escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite 3] ", ['1', '2', '3'])
 
     while escolha_site == '2':
