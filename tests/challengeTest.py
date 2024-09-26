@@ -1,7 +1,8 @@
 import unittest
 
 from service.serviceUser import forca_opcao, senha_len, verifica_idade, cadastro_usuario, login_usuario, \
-    dados_cadastrados, verifica_email_cadastro, email_existe, verifica_numero
+    dados_cadastrados, verifica_email_cadastro, email_existe, verifica_numero, adicionar_moedas, buscar_valores, \
+    verifica_usurio_index
 
 
 class TestChallengeMethods(unittest.TestCase):
@@ -24,18 +25,34 @@ class TestChallengeMethods(unittest.TestCase):
         self.assertFalse(login_usuario('terceiro', 'tddebom'))
 
     # Testes da função verifica_idade
-    def test_verifica_idade_deve_retornar_false_caso_for_de_menor_ou_se_nao_for_numero_retorna_3(self):
+    def test_verifica_idade_deve_retornar_false_caso_for_de_menor(self):
 
         # Verificando idade
         self.assertFalse(verifica_idade('3'))
         self.assertFalse(verifica_idade('12'))
         self.assertFalse(verifica_idade('17'))
 
+    def test_verifica_idade_deve_retornar_true_caso_for_de_maior(self):
+
+        # Verificando idade
+        self.assertFalse(verifica_idade('18'))
+        self.assertFalse(verifica_idade('32'))
+        self.assertFalse(verifica_idade('10000'))
+
+
+    def test_verifica_idade_deve_retornar_3_caso_nao_for_numero(self):
+
         # Verificando se não for número
         self.assertEqual(verifica_idade('qualquercoisa'), 3)
         self.assertEqual(verifica_idade("['dsf']"), 3)
         self.assertEqual(verifica_idade('[123]'), 3)
 
+    def test_verifica_idade_deve_retornar_true_caso_for_de_maior(self):
+
+        # Verificando se não for número
+        self.assertEqual(verifica_idade('qualquercoisa'), 3)
+        self.assertEqual(verifica_idade("['dsf']"), 3)
+        self.assertEqual(verifica_idade('[123]'), 3)
     # Testes da função email_existe
     def test_email_existe_deve_retornar_false_se_nao_encontrar_email(self):
         dados_cadastrados = [
@@ -83,8 +100,21 @@ class TestChallengeMethods(unittest.TestCase):
             {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'luana@gmail.com',
              'idade': 18, 'moedas': 100}
         ]
-        self.assertFalse(False)
+        moedas = 12
+        try:
+            self.assertRaises(adicionar_moedas(dados_cadastrados, 'ababa@gmail.com', moedas))
+        except:
+            print('Excepiton 1')
 
+        try:
+            self.assertRaises(adicionar_moedas(dados_cadastrados, 'ola@gmail.com', moedas))
+        except:
+            print('Excepiton 2')
+
+        try:
+            self.assertRaises(adicionar_moedas(dados_cadastrados, 'uepa@', moedas))
+        except:
+            print('Excepiton 3')
 
     def test_adicionar_moedas_deve_retornar_a_qnt_de_moedas_do_usuario(self):
         dados_cadastrados = [
@@ -95,21 +125,87 @@ class TestChallengeMethods(unittest.TestCase):
             {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'luana@gmail.com',
              'idade': 18, 'moedas': 100}
         ]
-        self.assertFalse(False)
+        moedas = 12
+        self.assertEqual(adicionar_moedas(dados_cadastrados, 'eduardodallabella@gmail.com', moedas), 112)
+        self.assertEqual(adicionar_moedas(dados_cadastrados, 'robinson@gmail.com', moedas), 112)
+        self.assertEqual(adicionar_moedas(dados_cadastrados, 'luana@gmail.com', moedas), 112)
 
 
 
     # Testes da função buscar_valores
     def test_buscar_valores_deve_cair_no_exeption_caso_nao_encontra_valor_do_usuario(self):
-        self.assertFalse(False)
+        dados_cadastrados = [
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'eduardodallabella@gmail.com',
+             'idade': 18, 'moedas': 100},
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'robinson@gmail.com',
+             'idade': 18, 'moedas': 100},
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'luana@gmail.com',
+             'idade': 18, 'moedas': 100}
+        ]
+        try:
+            self.assertRaises(buscar_valores(dados_cadastrados, 'dinheiro', 'eduardodallabella@gmail.com'))
+        except:
+            print('Excepiton 1')
+        try:
+            self.assertRaises(buscar_valores(dados_cadastrados, 'teste', 'robinson@gmail.com'))
+        except:
+            print('Excepiton 2')
+        try:
+            self.assertRaises(buscar_valores(dados_cadastrados, 'naotaaqui', 'luana@gmail.com'))
+        except:
+            print('Excepiton 3')
+
     def test_buscar_valores_retorna_index_do_valor_do_usuario_caso_encontra_usuario(self):
-        self.assertFalse(False)
+        dados_cadastrados = [
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'eduardodallabella@gmail.com',
+             'idade': 18, 'moedas': 100},
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'robinson@gmail.com',
+             'idade': 18, 'moedas': 100},
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'luana@gmail.com',
+             'idade': 18, 'moedas': 100}
+        ]
+
+        self.assertEqual(buscar_valores(dados_cadastrados, 'moedas', 'luana@gmail.com'), 100)
+        self.assertEqual(buscar_valores(dados_cadastrados, 'idade', 'eduardodallabella@gmail.com'), 18)
+        self.assertEqual(buscar_valores(dados_cadastrados, 'moedas', 'robinson@gmail.com'), 100)
 
 
     # Testes da função verifica_usurio_index
     def test_verifica_usurio_index_deve_cair_no_exeption_caso_nao_encontrar_usuario(self):
-        self.assertFalse(False)
+        dados_cadastrados = [
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'eduardodallabella@gmail.com',
+             'idade': 18, 'moedas': 100},
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'robinson@gmail.com',
+             'idade': 18, 'moedas': 100},
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'luana@gmail.com',
+             'idade': 18, 'moedas': 100}
+        ]
+        try:
+            self.assertRaises(verifica_usurio_index(dados_cadastrados, 'ed@gmail.com'))
+        except:
+            print('Exeption 1')
+
+        try:
+            self.assertRaises(verifica_usurio_index(dados_cadastrados, 'ola@yahoo.com'))
+        except:
+            print('Exeption 2')
+
+        try:
+            self.assertRaises(verifica_usurio_index(dados_cadastrados, 'ed2121@gmail.com'))
+        except:
+            print('Exeption 3')
+
 
     def test_verifica_usurio_index_deve_retornar_index_do_usario_caso_encontrar_usuario(self):
-        self.assertFalse(False)
+        dados_cadastrados = [
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'eduardodallabella@gmail.com',
+             'idade': 18, 'moedas': 100},
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'robinson@gmail.com',
+             'idade': 18, 'moedas': 100},
+            {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'luana@gmail.com',
+             'idade': 18, 'moedas': 100}
+        ]
+        self.assertEqual(verifica_usurio_index(dados_cadastrados, 'eduardodallabella@gmail.com'), 0)
+        self.assertEqual(verifica_usurio_index(dados_cadastrados, 'robinson@gmail.com'), 1)
+        self.assertEqual(verifica_usurio_index(dados_cadastrados, 'luana@gmail.com'), 2)
 
