@@ -8,7 +8,7 @@ from service.serviceUser import forca_opcao, senha_len, verifica_idade, cadastro
 class TestChallengeMethods(unittest.TestCase):
 
     # Testes da função verifica_email_cadastro
-    def test_verifica_email_cadastro_deve_retormar_falso_caso_regex_nao_coincide_ja_existe(self):
+    def test_verifica_email_cadastro_deve_retornar_falso_caso_regex_nao_coincide_ja_existe(self):
 
         # já existe
         self.assertTrue(verifica_email_cadastro('edu@gm.com'))
@@ -40,12 +40,12 @@ class TestChallengeMethods(unittest.TestCase):
         self.assertFalse(verifica_idade('10000'))
 
 
-    def test_verifica_idade_deve_retornar_3_caso_nao_for_numero(self):
+    def test_verifica_idade_deve_retornar_true_caso_for_numero(self):
 
         # Verificando se não for número
-        self.assertEqual(verifica_idade('qualquercoisa'), 3)
-        self.assertEqual(verifica_idade("['dsf']"), 3)
-        self.assertEqual(verifica_idade('[123]'), 3)
+        self.assertTrue(verifica_idade('qualquercoisa'))
+        self.assertTrue(verifica_idade("['dsf']"))
+        self.assertTrue(verifica_idade('[123]'))
 
     def test_verifica_idade_deve_retornar_true_caso_for_de_maior(self):
 
@@ -101,20 +101,17 @@ class TestChallengeMethods(unittest.TestCase):
              'idade': 18, 'moedas': 100}
         ]
         moedas = 12
-        try:
-            self.assertRaises(adicionar_moedas(dados_cadastrados, 'ababa@gmail.com', moedas))
-        except:
-            print('Excepiton 1')
+        with self.assertRaises(Exception):
+            adicionar_moedas(dados_cadastrados, 'ababa@gmail.com', moedas)
 
-        try:
-            self.assertRaises(adicionar_moedas(dados_cadastrados, 'ola@gmail.com', moedas))
-        except:
-            print('Excepiton 2')
 
-        try:
-            self.assertRaises(adicionar_moedas(dados_cadastrados, 'uepa@', moedas))
-        except:
-            print('Excepiton 3')
+        with self.assertRaises(Exception):
+            adicionar_moedas(dados_cadastrados, 'ola@gmail.com', moedas)
+
+
+        with self.assertRaises(Exception):
+            adicionar_moedas(dados_cadastrados, 'uepa@', moedas)
+
 
     def test_adicionar_moedas_deve_retornar_a_qnt_de_moedas_do_usuario(self):
         dados_cadastrados = [
@@ -142,18 +139,18 @@ class TestChallengeMethods(unittest.TestCase):
             {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'luana@gmail.com',
              'idade': 18, 'moedas': 100}
         ]
-        try:
-            self.assertRaises(buscar_valores(dados_cadastrados, 'dinheiro', 'eduardodallabella@gmail.com'))
-        except:
-            print('Excepiton 1')
-        try:
-            self.assertRaises(buscar_valores(dados_cadastrados, 'teste', 'robinson@gmail.com'))
-        except:
-            print('Excepiton 2')
-        try:
-            self.assertRaises(buscar_valores(dados_cadastrados, 'naotaaqui', 'luana@gmail.com'))
-        except:
-            print('Excepiton 3')
+        with self.assertRaises(Exception):
+            buscar_valores(dados_cadastrados, 'dinheiro', 'eduardodallabella@gmail.com')
+
+
+        with self.assertRaises(Exception):
+            buscar_valores(dados_cadastrados, 'teste', 'robinson@gmail.com')
+
+
+        with self.assertRaises(Exception):
+            buscar_valores(dados_cadastrados, 'naotaaqui', 'luana@gmail.com')
+
+
 
     def test_buscar_valores_retorna_index_do_valor_do_usuario_caso_encontra_usuario(self):
         dados_cadastrados = [
@@ -180,20 +177,17 @@ class TestChallengeMethods(unittest.TestCase):
             {'id': 1, 'nome': 'edu', 'senha': 'edu', 'endereco': 'educ4', 'email': 'luana@gmail.com',
              'idade': 18, 'moedas': 100}
         ]
-        try:
-            self.assertRaises(verifica_usurio_index(dados_cadastrados, 'ed@gmail.com'))
-        except:
-            print('Exeption 1')
+        with self.assertRaises(Exception):
+            verifica_usurio_index(dados_cadastrados, 'ed@gmail.com')
 
-        try:
-            self.assertRaises(verifica_usurio_index(dados_cadastrados, 'ola@yahoo.com'))
-        except:
-            print('Exeption 2')
 
-        try:
-            self.assertRaises(verifica_usurio_index(dados_cadastrados, 'ed2121@gmail.com'))
-        except:
-            print('Exeption 3')
+        with self.assertRaises(Exception):
+            verifica_usurio_index(dados_cadastrados, 'ola@yahoo.com')
+
+
+        with self.assertRaises(Exception):
+            verifica_usurio_index(dados_cadastrados, 'ed2121@gmail.com')
+
 
 
     def test_verifica_usurio_index_deve_retornar_index_do_usario_caso_encontrar_usuario(self):

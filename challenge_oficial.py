@@ -1,8 +1,8 @@
 # -*- coding: windows-1252 -*-
 
 from service.serviceUser import forca_opcao, senha_len, verifica_idade, cadastro_usuario, login_usuario, \
-    verifica_email_lista, dados_cadastrados, verifica_email_cadastro, email_existe, printar_noticias, quiz_data, \
-    moedas, buscar_valores, adicionar_moedas, conversar_com_chatbot, logging
+    dados_cadastrados, verifica_email_cadastro, email_existe, printar_noticias, quiz_data, \
+    moedas, buscar_valores, adicionar_moedas, conversar_com_chatbot, logging, verifica_usurio_index
 
 import nltk
 nltk.download('punkt')
@@ -16,6 +16,7 @@ moedas_conversa = 0
 moedas_perguntas = 0
 invalido = 0
 escolha_incio = forca_opcao("Digite 1 para se cadastrar ou 2 para fazer login: ", ['1', '2'])
+
 while escolha_incio != '3':
     while escolha_incio == '1':
         print("Faça seu cadastro!")
@@ -24,16 +25,20 @@ while escolha_incio != '3':
         endereco = input("Digite seu endereço: ")
         email = input("Diga seu email: ")
         while not verifica_email_cadastro(email):
+            logging.warning("Tentativa de cadastro com email inválido")
             email = input("Email inválido! Digite novamente: ")
 
         idade = input("Diga sua idade: ")
         while verifica_idade(idade) == 3:
+            logging.warning(f"Input inválido para idade: {idade}")
             idade = input("Insira um número: ")
 
         if not verifica_idade(idade):
+            logging.error("Usuário menor de 18 anos tentando acessar o site.")
             raise Exception("Você deve ter mais de 18 anos para acessar o site!")
 
         cadastro_usuario(nome, senha, endereco, email, idade)
+        logging.info(f"Usuário {nome} cadastrado com sucesso.")
         invalido = 0
         print('Você completou seu cadastro!')
         escolha_incio = '2'
@@ -43,25 +48,32 @@ while escolha_incio != '3':
         print("Faça seu login")
         try:
             email = input("Diga seu email: ")
-            email_existe(email, dados_cadastrados)
-        except:
+            if not email_existe(email, dados_cadastrados):
+                raise ValueError("Email não encontrado.")
+        except ValueError as ve:
+            logging.warning(f"Tentativa de login com email inválido: {email}")
             email = input("Email inválido! Digite novamente: ")
             email_existe(email, dados_cadastrados)
+
         senha = input("Digite sua senha: ")
         email = login_usuario(email, senha)
         if not email:
+            logging.warning(f"Tentativa de login falhou para o email: {email}")
             escolha_incio = forca_opcao(
                 "Credenciais inválidas!\nDigite 1 para se cadastrar ou 2 para fazer login novamente: ",
                 ['1', '2'])
         else:
+            logging.info(f"Usuário logado com sucesso: {email}")
             escolha_incio = '3'
 
 try:
-    indice = verifica_email_lista(dados_cadastrados, email)
+    indice = verifica_usurio_index(dados_cadastrados, email)
+    logging.info(f"Usuário {email} acessou o sistema com sucesso.")
     print(f"Bem vindo {dados_cadastrados[indice]['nome']} a Formula-E!\n"
           f"Aqui você encontrará quizes para se divertir e uma comunidade muito acolhedora para tirar dúvidas e "
           f"conversar!")
 except Exception as e:
+    logging.error(f"Erro ao tentar acessar o sistema: {e}")
     print(e)
 
 escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite 3] ", ['1', '2', '3'])
@@ -74,7 +86,11 @@ while True:
         print(' ' * 28, 'Noticias')
         printar_noticias()
 
-        print(f" Você tem {buscar_valores(dados_cadastrados, 'moedas', email)} moedas")
+        try:
+            moedas_usuario = buscar_valores(dados_cadastrados, 'moedas', email)
+            print(f" Você tem {moedas_usuario} moedas")
+        except Exception as e:
+            logging.error(f"Erro ao buscar moedas para o usuário {email}: {e}")
 
         escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite 3] ", ['1', '2', '3'])
 
@@ -99,9 +115,12 @@ while True:
                 print("Você errou...")
             indice_quiz += 1
 
-        adicionar_moedas(dados_cadastrados, email, moedas_perguntas)
+        try:
+            adicionar_moedas(dados_cadastrados, email, moedas_perguntas)
+            print(f"Parabéns! Você ganhou {moedas_perguntas} moedas")
+        except Exception as e:
+            logging.error(f"Erro ao adicionar moedas para o usuário {email}: {e}")
 
-        print(f"Parabéns! Você ganhou {moedas_perguntas} moedas")
         escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite 3] ", ['1', '2', '3'])
 
     while escolha_site == '3':
@@ -109,6 +128,7 @@ while True:
         print(' ' * 30, 'Comunity', ' ' * 30)
         print("-" * 67)
         print(' ' * 30, 'A cada msg vc ganha 1 ponto', ' ' * 30)
+
         # Crie uma instância do chatbot
         chatbot = ChatBot('Connect-E')
 
@@ -119,9 +139,12 @@ while True:
         trainer.train("chatterbot.corpus.portuguese")
         moedas_conversa = 0
         print("Digite 'sair' para encerrar a conversa.\n")
-        moedas_conversa = conversar_com_chatbot(chatbot, moedas_conversa)
 
-        adicionar_moedas(dados_cadastrados, email, moedas_conversa)
+        try:
+            moedas_conversa = conversar_com_chatbot(chatbot, moedas_conversa)
+            adicionar_moedas(dados_cadastrados, email, moedas_conversa)
+            print(f"Você ganhou {moedas_conversa} moedas")
+        except Exception as e:
+            logging.error(f"Erro no chatbot ou na adição de moedas: {e}")
 
-        print(f"Você ganhou {moedas_conversa} moedas")
         escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite 3] ", ['1', '2', '3'])

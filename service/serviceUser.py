@@ -4,8 +4,10 @@ import re
 import random
 import time
 import logging
+
 # Configurando o logger
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 moedas = 0
 # regex para email
@@ -141,59 +143,56 @@ noticias = [
         }
     ]
 
-
 # Função que faz cadastro do usuário, guardando as credenciais dele no "banco"
 def cadastro_usuario(nome_usuario, senha_usuario, endereco_usuario, email_usuario, idade_usuario):
     id_usuario = random.randrange(100)
-
     usuario = {'id': id_usuario, 'nome': nome_usuario, 'senha': senha_usuario, 'endereco': endereco_usuario,
                'email': email_usuario, 'idade': idade_usuario, 'moedas': 0}
     dados_cadastrados.append(usuario)
     return True
-
 
 # Função que faz login do usuário
 def login_usuario(email_usuario, senha_usuario):
     for i in range(len(dados_cadastrados)):
         if email_usuario in dados_cadastrados[i]['email'] and senha_usuario in dados_cadastrados[i]['senha']:
             return email_usuario
+    logger.warning(f"Tentativa de login falhou para o usuário: {email_usuario}")
     return False
-
 
 # Função verifica se o email do cadastro existe ou está de acordo com o regex
 def verifica_email_cadastro(email):
-    while not re.fullmatch(regex, email) or email_existe(email, dados_cadastrados):
+    if not re.fullmatch(regex, email):
+        logger.warning(f"Formato de email inválido: {email}")
         return False
-
+    if email_existe(email, dados_cadastrados):
+        logger.warning(f"Email já existe: {email}")
+        return False
     return email
-
 
 # Função que verifica se o email do usuário existe
 def email_existe(email, dados_cadastrados):
     for i in range(len(dados_cadastrados)):
         if dados_cadastrados[i]['email'] == email:
             return email
-
+    logger.warning(f"Email não encontrado: {email}")
     return False
-
 
 # Função que verifica se a senha é igual ou maior que 5
 def senha_len(msg):
     senha = input(msg)
     while len(senha) < 5:
-        print("A senha deve ter 5 ou mais caractéres")
+        logger.warning("Senha muito curta, deve ter 5 ou mais caracteres.")
         senha = input("Digite sua senha: ")
     return senha
 
-
 # Função para verificar idade do usuário
 def verifica_idade(idade):
-    while not verifica_numero(idade):
+    if not verifica_numero(idade):
+        logger.warning(f"Idade inválida: {idade}")
         return 3
     if int(idade) < 18:
         return False
     return idade
-
 
 # Função para verificar se o input é um número
 def verifica_numero(num):
@@ -201,8 +200,8 @@ def verifica_numero(num):
         numero = int(num)
         return numero
     except ValueError:
+        logger.warning(f"Entrada inválida, não é um número: {num}")
         return False
-
 
 # Função para receber a lista e buscar o elemento digitado
 def meu_in(lista, buscar):
@@ -211,24 +210,24 @@ def meu_in(lista, buscar):
             return True
     return False
 
-
 # Função para adicionar moedas para o usuário selecionado
 def adicionar_moedas(lista_discinario, email, moedas):
     try:
         index_usuario = verifica_usurio_index(lista_discinario, email)
         lista_discinario[index_usuario]['moedas'] += moedas
         return lista_discinario[index_usuario]['moedas']
-    except:
-        raise Exception("Valor não encontrado!")
+    except Exception as e:
+        logger.error(f"Erro ao adicionar moedas para o usuário {email}: {e}")
+        raise
 
-
-# Função para buscar valores expecifico dentro do usuario
+# Função para buscar valores específicos dentro do usuário
 def buscar_valores(lista_discinario, buscar, email):
     try:
         index = verifica_usurio_index(lista_discinario, email)
         return lista_discinario[index][buscar]
-    except:
-        raise Exception("Valor não encontrado!")
+    except Exception as e:
+        logger.error(f"Erro desconhecido ao buscar valor para o usuário {email}: {e}")
+        raise
 
 
 # Função que verifica se o usuario existe e passa o index dele caso existir
@@ -236,19 +235,19 @@ def verifica_usurio_index(lista_discinario, email_usuario):
     for i in range(len(lista_discinario)):
         if lista_discinario[i]['email'] == email_usuario:
             return i
+    logger.error(f"Usuário com email {email_usuario} não encontrado")
     raise Exception("Usuário não encontrado!")
-
 
 # Função que força a opção do usuário
 def forca_opcao(msg, lista_opcoes):
     msg_erro = ' '.join(lista_opcoes)
-    msg_erro = f"Somente essas opcoes:\n{msg_erro}"
+    msg_erro = f"Somente essas opções:\n{msg_erro}"
     opcao = input(msg)
     while not meu_in(lista_opcoes, opcao):
+        logger.warning(f"Opção inválida: {opcao}. Somente essas opções são permitidas: {lista_opcoes}")
         print(msg_erro)
         opcao = input(msg)
     return opcao
-
 
 # Função de printar as noticias da formula-e
 def printar_noticias():
@@ -257,7 +256,6 @@ def printar_noticias():
               f"{noticia['descricao']}\n"
               f"Para saber mais, visite {noticia['path']}\n")
         time.sleep(2.5)
-
 
 # Função exterior que cria um chatbot interativo
 def conversar_com_chatbot(chatbot, moedas_conversa):
@@ -280,6 +278,6 @@ def conversar_com_chatbot(chatbot, moedas_conversa):
             print("Chatbot:", resposta)
 
     except (KeyboardInterrupt, EOFError, SystemExit):
+        logger.warning("Sessão do chatbot interrompida.")
         print("\nSessão encerrada. Até a próxima!")
         return moedas_conversa
-
