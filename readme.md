@@ -13,6 +13,7 @@ O sistema possui as seguintes funcionalidades principais:
 4. **Validação de E-mail**: Verifica se o e-mail do usuário está em um formato válido e se já está cadastrado no sistema.
 5. **Gerenciamento de Moedas**: Adiciona moedas à conta do usuário ou verifica a quantidade de moedas disponíveis.
 6. **Busca de Valores**: Busca valores específicos dos usuários cadastrados, como idade, moedas, entre outros.
+7. **Conversa com chatbot**: Conversa com o um gerador aleatório de mensagens.
 
 ## 🛠 Tecnologias Utilizadas
 
@@ -22,13 +23,17 @@ O sistema possui as seguintes funcionalidades principais:
 - **Random**: Usado para gerar IDs únicos para novos usuários.
 - **Logging**: Utilizado para registrar eventos, avisos e erros que ocorrem durante a execução do código.
 - **Time**: Utilizado para pausar a execução de algumas funções (como a exibição de notícias).
-
+- **NLTK**: Biblioteca usada para processamento de linguagem natural.
+- **ChatterBot**: Biblioteca usada para criar chatbots.
+- 
 ### Bibliotecas do Python Usadas
 
 - **`re`**: Para a criação de expressões regulares (regex), ajudando na validação dos e-mails.
 - **`random`**: Para gerar IDs aleatórios durante o cadastro de usuários.
 - **`time`**: Para introduzir pequenas pausas na exibição das notícias, simulando uma interface de usuário mais amigável.
 - **`logging`**: Para gerar logs de erros e avisos durante o processo de cadastro, login e outras interações com o sistema.
+- **`nltk`**: Para processamento de linguagem natural.
+- **`chatterbot`**: Para criar e treinar chatbots.
 
 ## 📁 Estrutura do Projeto
 
