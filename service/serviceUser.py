@@ -142,7 +142,7 @@ noticias = [
     ]
 
 
-
+# Função que faz cadastro do usuário, guardando as credenciais dele no "banco"
 def cadastro_usuario(nome_usuario, senha_usuario, endereco_usuario, email_usuario, idade_usuario):
     id_usuario = random.randrange(100)
 
@@ -152,6 +152,7 @@ def cadastro_usuario(nome_usuario, senha_usuario, endereco_usuario, email_usuari
     return True
 
 
+# Função que faz login do usuário
 def login_usuario(email_usuario, senha_usuario):
     for i in range(len(dados_cadastrados)):
         if email_usuario in dados_cadastrados[i]['email'] and senha_usuario in dados_cadastrados[i]['senha']:
@@ -159,14 +160,16 @@ def login_usuario(email_usuario, senha_usuario):
     return False
 
 
+# Função verifica se o email do cadastro existe ou está de acordo com o regex
 def verifica_email_cadastro(email):
-    while not re.fullmatch(regex, email) or email_existe(email):
+    while not re.fullmatch(regex, email) or email_existe(email, dados_cadastrados):
         return False
 
     return email
 
 
-def email_existe(email):
+# Função que verifica se o email do usuário existe
+def email_existe(email, dados_cadastrados):
     for i in range(len(dados_cadastrados)):
         if dados_cadastrados[i]['email'] == email:
             return email
@@ -174,6 +177,7 @@ def email_existe(email):
     return False
 
 
+# Função que verifica se a senha é igual ou maior que 5
 def senha_len(msg):
     senha = input(msg)
     while len(senha) < 5:
@@ -182,6 +186,7 @@ def senha_len(msg):
     return senha
 
 
+# Função para verificar idade do usuário
 def verifica_idade(idade):
     while not verifica_numero(idade):
         return 3
@@ -190,7 +195,7 @@ def verifica_idade(idade):
     return idade
 
 
-# verifica se o input é um número
+# Função para verificar se o input é um número
 def verifica_numero(num):
     try:
         numero = int(num)
@@ -199,7 +204,7 @@ def verifica_numero(num):
         return False
 
 
-# recebe a lista e busca o elemento digitado
+# Função para receber a lista e buscar o elemento digitado
 def meu_in(lista, buscar):
     for elem in lista:
         if elem == buscar:
@@ -207,14 +212,7 @@ def meu_in(lista, buscar):
     return False
 
 
-# procura index do elemento
-def meu_index(lista, buscar):
-    for i in range(len(lista)):
-        if lista[i] == buscar:
-            return i
-    return False
-
-
+# Função para adicionar moedas para o usuário selecionado
 def adicionar_moedas(lista_discinario, email, moedas):
     try:
         index_usuario = verifica_usurio_index(lista_discinario, email)
@@ -224,6 +222,7 @@ def adicionar_moedas(lista_discinario, email, moedas):
         raise Exception("Valor não encontrado!")
 
 
+# Função para buscar valores expecifico dentro do usuario
 def buscar_valores(lista_discinario, buscar, email):
     try:
         index = verifica_usurio_index(lista_discinario, email)
@@ -232,6 +231,7 @@ def buscar_valores(lista_discinario, buscar, email):
         raise Exception("Valor não encontrado!")
 
 
+# Função que verifica se o usuario existe e passa o index dele caso existir
 def verifica_usurio_index(lista_discinario, email_usuario):
     for i in range(len(lista_discinario)):
         if lista_discinario[i]['email'] == email_usuario:
@@ -239,14 +239,7 @@ def verifica_usurio_index(lista_discinario, email_usuario):
     raise Exception("Usuário não encontrado!")
 
 
-def verifica_email_lista(lista_discinario, email_usuario):
-    for i in range(len(lista_discinario)):
-        if lista_discinario[i]['email'] == email_usuario:
-            return i
-    raise Exception("Usuário não encontrado!")
-
-
-# força a opção do usuário
+# Função que força a opção do usuário
 def forca_opcao(msg, lista_opcoes):
     msg_erro = ' '.join(lista_opcoes)
     msg_erro = f"Somente essas opcoes:\n{msg_erro}"
@@ -257,6 +250,7 @@ def forca_opcao(msg, lista_opcoes):
     return opcao
 
 
+# Função de printar as noticias da formula-e
 def printar_noticias():
     for noticia in noticias:
         print(f"{noticia['data']}\n"
@@ -265,6 +259,7 @@ def printar_noticias():
         time.sleep(2.5)
 
 
+# Função exterior que cria um chatbot interativo
 def conversar_com_chatbot(chatbot, moedas_conversa):
     try:
         while True:

@@ -43,10 +43,10 @@ while escolha_incio != '3':
         print("Faça seu login")
         try:
             email = input("Diga seu email: ")
-            email_existe(email)
+            email_existe(email, dados_cadastrados)
         except:
             email = input("Email inválido! Digite novamente: ")
-            email_existe(email)
+            email_existe(email, dados_cadastrados)
         senha = input("Digite sua senha: ")
         email = login_usuario(email, senha)
         if not email:
