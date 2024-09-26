@@ -1,9 +1,11 @@
+# -*- coding: windows-1252 -*-
+
 import re
 import random
 import time
 import logging
 # Configurando o logger
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 moedas = 0
 # regex para email
@@ -14,27 +16,27 @@ dados_cadastrados = [
 quiz_data = {
     "questions": [
         {
-            "question": "Qual foi o primeiro campeÃ£o da FÃ³rmula E?",
+            "question": "Qual foi o primeiro campeão da Fórmula E?",
             "options": [
-                "Jean-Ã‰ric Vergne",
-                "SÃ©bastien Buemi",
+                "Jean-Éric Vergne",
+                "Sébastien Buemi",
                 "Lucas di Grassi",
                 "Nelson Piquet Jr."
             ],
             "answer": "Nelson Piquet Jr."
         },
         {
-            "question": "Qual cidade sediou a primeira corrida da FÃ³rmula E?",
+            "question": "Qual cidade sediou a primeira corrida da Fórmula E?",
             "options": [
                 "Nova York",
                 "Paris",
                 "Pequim",
-                "TÃ³quio"
+                "Tóquio"
             ],
             "answer": "Pequim"
         },
         {
-            "question": "Quantas equipes participaram da primeira temporada da FÃ³rmula E?",
+            "question": "Quantas equipes participaram da primeira temporada da Fórmula E?",
             "options": [
                 "8",
                 "10",
@@ -44,7 +46,7 @@ quiz_data = {
             "answer": "12"
         },
         {
-            "question": "Qual fabricante forneceu os primeiros motores elÃ©tricos para a FÃ³rmula E?",
+            "question": "Qual fabricante forneceu os primeiros motores elétricos para a Fórmula E?",
             "options": [
                 "Audi",
                 "BMW",
@@ -54,17 +56,17 @@ quiz_data = {
             "answer": "Renault"
         },
         {
-            "question": "Qual piloto foi o primeiro a vencer duas vezes consecutivas o campeonato da FÃ³rmula E?",
+            "question": "Qual piloto foi o primeiro a vencer duas vezes consecutivas o campeonato da Fórmula E?",
             "options": [
-                "AntÃ³nio FÃ©lix da Costa",
-                "Jean-Ã‰ric Vergne",
+                "António Félix da Costa",
+                "Jean-Éric Vergne",
                 "Sam Bird",
                 "Stoffel Vandoorne"
             ],
-            "answer": "Jean-Ã‰ric Vergne"
+            "answer": "Jean-Éric Vergne"
         },
         {
-            "question": "Qual equipe venceu o primeiro tÃ­tulo de equipes na FÃ³rmula E?",
+            "question": "Qual equipe venceu o primeiro título de equipes na Fórmula E?",
             "options": [
                 "Audi Sport ABT",
                 "DS Techeetah",
@@ -74,7 +76,7 @@ quiz_data = {
             "answer": "Renault e.dams"
         },
         {
-            "question": "Quantas voltas completas tem uma corrida tÃ­pica da FÃ³rmula E?",
+            "question": "Quantas voltas completas tem uma corrida típica da Fórmula E?",
             "options": [
                 "30",
                 "45 minutos mais uma volta",
@@ -84,17 +86,17 @@ quiz_data = {
             "answer": "45 minutos mais uma volta"
         },
         {
-            "question": "Qual cidade Ã© a sede da FIA, o Ã³rgÃ£o que regula a FÃ³rmula E?",
+            "question": "Qual cidade é a sede da FIA, o órgão que regula a Fórmula E?",
             "options": [
                 "Paris",
                 "Londres",
                 "Genebra",
-                "MÃ´naco"
+                "Mônaco"
             ],
             "answer": "Paris"
         },
         {
-            "question": "Qual temporada da FÃ³rmula E introduziu o 'Attack Mode'?",
+            "question": "Qual temporada da Fórmula E introduziu o 'Attack Mode'?",
             "options": [
                 "Temporada 1",
                 "Temporada 2",
@@ -104,22 +106,22 @@ quiz_data = {
             "answer": "Temporada 5"
         },
         {
-            "question": "Qual piloto detÃ©m o recorde de mais vitÃ³rias em uma Ãºnica temporada de FÃ³rmula E?",
+            "question": "Qual piloto detém o recorde de mais vitórias em uma única temporada de Fórmula E?",
             "options": [
-                "SÃ©bastien Buemi",
+                "Sébastien Buemi",
                 "Lucas di Grassi",
                 "Mitch Evans",
                 "Robin Frijns"
             ],
-            "answer": "SÃ©bastien Buemi"
+            "answer": "Sébastien Buemi"
         }
     ]
 }
 
 noticias = [
         {
-            "data": '24 marÃ§o 2023',
-            "descricao": 'A criaÃ§Ã£o de um circuito de FÃ³rmula E',
+            "data": '24 março 2023',
+            "descricao": 'A criação de um circuito de Fórmula E',
             "path": 'https://www.fiaformulae.com/pt-br/news/17969'
         },
         {
@@ -175,7 +177,7 @@ def email_existe(email):
 def senha_len(msg):
     senha = input(msg)
     while len(senha) < 5:
-        print("A senha deve ter 5 ou mais caractÃ©res")
+        print("A senha deve ter 5 ou mais caractéres")
         senha = input("Digite sua senha: ")
     return senha
 
@@ -188,7 +190,7 @@ def verifica_idade(idade):
     return idade
 
 
-# verifica se o input Ã© um nÃºmero
+# verifica se o input é um número
 def verifica_numero(num):
     try:
         numero = int(num)
@@ -219,7 +221,7 @@ def adicionar_moedas(lista_discinario, email, moedas):
         lista_discinario[index_usuario]['moedas'] += moedas
         return lista_discinario[index_usuario]['moedas']
     except:
-        raise Exception("Valor nÃ£o encontrado!")
+        raise Exception("Valor não encontrado!")
 
 
 def buscar_valores(lista_discinario, buscar, email):
@@ -227,24 +229,24 @@ def buscar_valores(lista_discinario, buscar, email):
         index = verifica_usurio_index(lista_discinario, email)
         return lista_discinario[index][buscar]
     except:
-        raise Exception("Valor nÃ£o encontrado!")
+        raise Exception("Valor não encontrado!")
 
 
 def verifica_usurio_index(lista_discinario, email_usuario):
     for i in range(len(lista_discinario)):
         if lista_discinario[i]['email'] == email_usuario:
             return i
-    raise Exception("UsuÃ¡rio nÃ£o encontrado!")
+    raise Exception("Usuário não encontrado!")
 
 
 def verifica_email_lista(lista_discinario, email_usuario):
     for i in range(len(lista_discinario)):
         if lista_discinario[i]['email'] == email_usuario:
             return i
-    raise Exception("UsuÃ¡rio nÃ£o encontrado!")
+    raise Exception("Usuário não encontrado!")
 
 
-# forÃ§a a opÃ§Ã£o do usuÃ¡rio
+# força a opção do usuário
 def forca_opcao(msg, lista_opcoes):
     msg_erro = ' '.join(lista_opcoes)
     msg_erro = f"Somente essas opcoes:\n{msg_erro}"
@@ -264,22 +266,25 @@ def printar_noticias():
 
 
 def conversar_com_chatbot(chatbot, moedas_conversa):
-    while True:
-        try:
-            pergunta = input("VocÃª: ")
-            # Verifica se o usuÃ¡rio quer sair
-            while pergunta.lower() != 'sair':
-                # Recebe a entrada do usuÃ¡rio
-                moedas_conversa += 1
+    try:
+        while True:
+            # Recebe a entrada do usuário
+            print("Digite 'sair' para encerrar\n")
+            pergunta = input("Você: ")
 
-                # Gera uma resposta para a pergunta do usuÃ¡rio
-                resposta = chatbot.get_response(pergunta)
-                print("Chatbot:", resposta)
+            # Verifica se o usuário quer sair
+            if pergunta.lower() == 'sair':
+                print("Tchau! Até a próxima.")
+                return moedas_conversa
 
-            print("Tchau! AtÃ© a prÃ³xima.")
-            return moedas_conversa
+            # Incrementa o contador de moedas de conversa
+            moedas_conversa += 1
 
-        except(KeyboardInterrupt, EOFError, SystemExit):
-            break
+            # Gera uma resposta para a pergunta do usuário
+            resposta = chatbot.get_response(pergunta)
+            print("Chatbot:", resposta)
 
+    except (KeyboardInterrupt, EOFError, SystemExit):
+        print("\nSessão encerrada. Até a próxima!")
+        return moedas_conversa
 
