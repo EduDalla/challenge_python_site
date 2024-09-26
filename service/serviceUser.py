@@ -1,7 +1,9 @@
 import re
 import random
 import time
-
+import logging
+# Configurando o logger
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 moedas = 0
 # regex para email
@@ -259,6 +261,25 @@ def printar_noticias():
               f"{noticia['descricao']}\n"
               f"Para saber mais, visite {noticia['path']}\n")
         time.sleep(2.5)
-        
+
+
+def conversar_com_chatbot(chatbot, moedas_conversa):
+    while True:
+        try:
+            pergunta = input("Você: ")
+            # Verifica se o usuário quer sair
+            while pergunta.lower() != 'sair':
+                # Recebe a entrada do usuário
+                moedas_conversa += 1
+
+                # Gera uma resposta para a pergunta do usuário
+                resposta = chatbot.get_response(pergunta)
+                print("Chatbot:", resposta)
+
+            print("Tchau! Até a próxima.")
+            return moedas_conversa
+
+        except(KeyboardInterrupt, EOFError, SystemExit):
+            break
 
 

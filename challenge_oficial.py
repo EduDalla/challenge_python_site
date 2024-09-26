@@ -1,9 +1,16 @@
 from service.serviceUser import forca_opcao, senha_len, verifica_idade, cadastro_usuario, login_usuario, \
     verifica_email_lista, dados_cadastrados, verifica_email_cadastro, email_existe, printar_noticias, quiz_data, \
-    moedas, buscar_valores, adicionar_moedas
+    moedas, buscar_valores, adicionar_moedas, conversar_com_chatbot, logging
+
+import nltk
+nltk.download('punkt')
+nltk.download('punkt_tab')
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
 
 exec(open('./service/serviceUser.py').read())
 
+moedas_conversa = 0
 moedas_perguntas = 0
 invalido = 0
 escolha_incio = forca_opcao("Digite 1 para se cadastrar ou 2 para fazer login: ", ['1', '2'])
@@ -99,4 +106,19 @@ while True:
         print(' ' * 30, 'Comunity', ' ' * 30)
         print("🔵" * 30)
         print(' ' * 30, 'A cada msg vc ganha 1 ponto', ' ' * 30)
+        # Crie uma instância do chatbot
+        chatbot = ChatBot('Connect-E')
+
+        # Treinador que usa o corpus de dados para treinamento
+        trainer = ChatterBotCorpusTrainer(chatbot)
+
+        # Treinar o chatbot com o corpus padrão em português
+        trainer.train("chatterbot.corpus.portuguese")
+        moedas_conversa = 0
+        print("Digite 'sair' para encerrar a conversa.\n")
+        moedas_conversa = conversar_com_chatbot(chatbot, moedas_conversa)
+
+        adicionar_moedas(dados_cadastrados, email, moedas_conversa)
+
+        print(f"Você ganhou {moedas_conversa} moedas")
         escolha_site = forca_opcao("Home[Digite 1], Quizzes[Digite 2], Comunidade[Digite 3] ", ['1', '2', '3'])
