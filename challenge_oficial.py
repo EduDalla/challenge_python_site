@@ -109,15 +109,15 @@ while True:
                 opcoes += 1
             resposta = int(forca_opcao(f"Digite a resposta: ", ['1', '2', '3', '4']))
             if data_quiz["options"][resposta - 1] in data_quiz['answer']:
-                print("Você acertou! Ganhou 10 moedas!")
+                print("Você acertou! Ganhou 10 moedas!\n")
                 moedas_perguntas += 10
             else:
-                print("Você errou...")
+                print("Você errou...\n")
             indice_quiz += 1
 
         try:
             adicionar_moedas(dados_cadastrados, email, moedas_perguntas)
-            print(f"Parabéns! Você ganhou {moedas_perguntas} moedas")
+            print(f"Parabéns! Você ganhou {moedas_perguntas} moedas no total")
         except Exception as e:
             logging.error(f"Erro ao adicionar moedas para o usuário {email}: {e}")
 
@@ -130,7 +130,10 @@ while True:
         print(' ' * 30, 'A cada msg vc ganha 1 ponto', ' ' * 30)
 
         # Crie uma instância do chatbot
-        chatbot = ChatBot('Connect-E')
+        chatbot = ChatBot('Connect-E',
+                          storage_adapter='chatterbot.storage.SQLStorageAdapter',
+                          database_uri='sqlite:///database.sqlite3'
+                          )
 
         # Treinador que usa o corpus de dados para treinamento
         trainer = ChatterBotCorpusTrainer(chatbot)
@@ -138,7 +141,6 @@ while True:
         # Treinar o chatbot com o corpus padrão em português
         trainer.train("chatterbot.corpus.portuguese")
         moedas_conversa = 0
-        print("Digite 'sair' para encerrar a conversa.\n")
 
         try:
             moedas_conversa = conversar_com_chatbot(chatbot, moedas_conversa)

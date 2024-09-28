@@ -275,7 +275,7 @@ def conversar_com_chatbot(chatbot, moedas_conversa):
 
             # Gera uma resposta para a pergunta do usuário
             resposta = chatbot.get_response(pergunta)
-            print("Chatbot:", resposta)
+            print("Formula-E:", resposta)
 
     except (KeyboardInterrupt, EOFError, SystemExit):
         logger.warning("Sessão do chatbot interrompida.")

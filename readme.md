@@ -25,7 +25,9 @@ O sistema possui as seguintes funcionalidades principais:
 - **Time**: Utilizado para pausar a execução de algumas funções (como a exibição de notícias).
 - **NLTK**: Biblioteca usada para processamento de linguagem natural.
 - **ChatterBot**: Biblioteca usada para criar chatbots.
-- 
+Caso tiver alguma difuculdade em instalar a biblioteca do ChatterBot, acesse a documentação oficial deles: 
+[Clique aqui](https://chatterbot.readthedocs.io/en/stable/)
+
 ### Bibliotecas do Python Usadas
 
 - **`re`**: Para a criação de expressões regulares (regex), ajudando na validação dos e-mails.
