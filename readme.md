@@ -17,7 +17,7 @@ O sistema possui as seguintes funcionalidades principais:
 
 ## 🛠 Tecnologias Utilizadas
 
-- **Python 3.x**: Linguagem de programação usada para implementar as funcionalidades.
+- **Python 3.8**: Linguagem de programação usada para implementar as funcionalidades.
 - **Unittest**: Biblioteca padrão do Python para criação de testes unitários.
 - **Regex**: Usado para validação de e-mails e outros padrões.
 - **Random**: Usado para gerar IDs únicos para novos usuários.
