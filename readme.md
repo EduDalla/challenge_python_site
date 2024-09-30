@@ -3,6 +3,14 @@
 
 Este projeto simula nosso sistema que criamos para a Formula-E. Este código implementa todas as funcionalidades vistas na aula de python!
 
+# 📋 Integrates
+- Alexia Ramalho - RM 558385
+- Eduardo Dallabella - RM 556803
+- Hellen Moura - RM 559008
+- Heloísa Real - RM 554535
+- Lorenzo Acquesta - RM 557397
+
+
 ## 🚀 Funcionalidades
 
 O sistema possui as seguintes funcionalidades principais:
